@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>IronPeak Admin — Customer Messages</title>
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0b0d; --surface: #17171c; --surface-2: #1f1f26; --line: rgba(255,255,255,0.08);
+      --text: #f4f2ee; --muted: #9b9aa3; --accent: #ff5a1f; --accent-2: #ffb21f;
+      --green: #3ddc84; --blue: #6ea8ff; --red: #ff6b85;
+      --grad: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    button, input, select { font: inherit; color: inherit; }
+    svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .wrap { width: min(1180px, 100% - 32px); margin: 0 auto; }
+
+    header { position: sticky; top: 0; z-index: 10; background: rgba(11,11,13,0.85); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    header .wrap { display: flex; align-items: center; gap: 16px; height: 68px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-family: "Anton", Impact, sans-serif; font-size: 1.35rem; letter-spacing: 0.05em; text-decoration: none; }
+    .logo svg { width: 30px; height: 30px; fill: var(--accent); stroke: none; }
+    .logo b { font-weight: 400; color: var(--accent); }
+    .logo small { font-family: "Inter", sans-serif; font-size: 0.7rem; letter-spacing: 0.16em; color: var(--muted); margin-left: 6px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 100px; }
+    .live { margin-left: auto; display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 0.82rem; }
+    .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(61,220,132,0.6); animation: pulse 2s infinite; }
+    .live.is-off i { background: var(--red); animation: none; }
+    @keyframes pulse { 70% { box-shadow: 0 0 0 8px rgba(61,220,132,0); } 100% { box-shadow: 0 0 0 0 rgba(61,220,132,0); } }
+    .site-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; padding: 8px 14px; border-radius: 100px; border: 1px solid var(--line); text-decoration: none; }
+    .site-link:hover { border-color: var(--text); }
+
+    h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; font-size: clamp(2rem, 4vw, 2.8rem); text-transform: uppercase; margin: 36px 0 4px; letter-spacing: 0.01em; }
+    h1 em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sub { color: var(--muted); margin: 0 0 28px; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+    .stat { padding: 18px 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+    .stat span { display: block; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+    .stat strong { display: block; font-family: "Anton", Impact, sans-serif; font-weight: 400; font-size: 2.2rem; line-height: 1.2; }
+    .stat--new strong { color: var(--accent); }
+
+    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+    .tab { background: none; border: 0; padding: 12px 16px; cursor: pointer; color: var(--muted); font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; display: flex; align-items: center; gap: 8px; }
+    .tab.is-active { color: var(--text); border-color: var(--accent); }
+    .tab .count { font-size: 0.72rem; padding: 2px 8px; border-radius: 100px; background: var(--surface-2); }
+
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+    .search { flex: 1; min-width: 220px; position: relative; }
+    .search svg { position: absolute; left: 14px; top: 50%; translate: 0 -50%; color: var(--muted); }
+    .search input { width: 100%; padding: 11px 14px 11px 42px; }
+    input, select { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 11px 14px; outline: none; }
+    input:focus, select:focus { border-color: var(--accent); }
+    select { cursor: pointer; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; font-size: 0.88rem; text-decoration: none; transition: border-color .2s, background .2s; white-space: nowrap; }
+    .btn:hover { border-color: rgba(255,255,255,0.3); }
+    .btn--primary { background: var(--grad); color: #140700; border: 0; }
+
+    .list { display: grid; gap: 12px; padding-bottom: 60px; }
+    .msg { position: relative; padding: 20px 22px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); transition: border-color .3s, opacity .3s; }
+    .msg.is-new { border-color: rgba(255,90,31,0.45); }
+    .msg.is-new::before { content: ""; position: absolute; left: 0; top: 18px; bottom: 18px; width: 3px; border-radius: 0 3px 3px 0; background: var(--grad); }
+    .msg.is-done { opacity: 0.6; }
+    .msg.is-fresh { animation: fresh 2.4s ease-out; }
+    @keyframes fresh { 0% { background: #3a1b0d; } 100% { background: var(--surface); } }
+    .msg__top { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+    .avatar { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--grad); color: #140700; font-weight: 700; }
+    .who { flex: 1; min-width: 180px; }
+    .who strong { font-size: 1.05rem; }
+    .contact { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
+    .contact a { text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .contact a:hover { color: var(--accent); }
+    .contact svg { width: 14px; height: 14px; }
+    .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pill { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 10px; border-radius: 100px; background: rgba(255,90,31,0.12); color: var(--accent); }
+    .pill--new { background: rgba(255,90,31,0.18); color: var(--accent); }
+    .pill--read { background: rgba(110,168,255,0.14); color: var(--blue); }
+    .pill--done { background: rgba(61,220,132,0.14); color: var(--green); }
+    time { color: var(--muted); font-size: 0.82rem; }
+    .msg__body { margin: 14px 0 14px 54px; white-space: pre-wrap; word-break: break-word; color: rgba(244,242,238,0.9); }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: 54px; }
+    .actions .btn { padding: 7px 12px; font-size: 0.8rem; border-radius: 10px; }
+    .actions .btn--danger:hover { border-color: var(--red); color: var(--red); }
+
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+    th, td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+
+    .empty { text-align: center; padding: 70px 20px; color: var(--muted); background: var(--surface); border: 1px dashed var(--line); border-radius: 16px; }
+    .empty strong { display: block; color: var(--text); font-size: 1.1rem; margin-bottom: 4px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; translate: -50% calc(100% + 60px); visibility: hidden; padding: 12px 20px; border-radius: 100px; background: var(--text); color: var(--bg); font-weight: 600; transition: translate .4s cubic-bezier(.22,1,.36,1), visibility .4s; z-index: 20; }
+    .toast.is-visible { translate: -50% 0; visibility: visible; }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 760px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .msg__body, .actions { margin-left: 0; }
+      .live span { display: none; }
+      .logo small { display: none; }
+      th:nth-child(1), td:nth-child(1) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="logo" href="/admin">
+        <svg viewBox="0 0 64 64"><path d="M8 52 L26 18 L36 36 L42 26 L56 52 Z" /></svg>
+        <span>IRON<b>PEAK</b></span><small>ADMIN</small>
+      </a>
+      <div class="live" id="live" title="Refreshes automatically every 15 seconds"><i></i><span id="liveText">Live</span></div>
+      <a class="site-link" href="/" target="_blank" rel="noopener">View site
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1>Customer <em>inbox</em></h1>
+    <p class="sub">Every message sent from the website's contact form, saved in <code>data/ironpeak.db</code>.</p>
+
+    <section class="stats">
+      <div class="stat"><span>Total messages</span><strong id="statTotal">–</strong></div>
+      <div class="stat stat--new"><span>Unread</span><strong id="statNew">–</strong></div>
+      <div class="stat"><span>Last 7 days</span><strong id="statWeek">–</strong></div>
+      <div class="stat"><span>Newsletter</span><strong id="statSubs">–</strong></div>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="messages" role="tab">Messages <span class="count" id="countMessages">0</span></button>
+      <button class="tab" data-tab="subscribers" role="tab">Newsletter subscribers <span class="count" id="countSubs">0</span></button>
+    </nav>
+
+    <!-- Messages -->
+    <section id="panelMessages">
+      <div class="toolbar">
+        <label class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input type="search" id="search" placeholder="Search name, email, phone or message…" aria-label="Search messages" />
+        </label>
+        <select id="filterStatus" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="new">Unread</option>
+          <option value="read">Read</option>
+          <option value="done">Handled</option>
+        </select>
+        <select id="filterInterest" aria-label="Filter by interest"><option value="">All interests</option></select>
+        <a class="btn" href="/api/admin/inquiries.csv">
+          <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Export CSV</a>
+      </div>
+      <div class="list" id="messageList"></div>
+    </section>
+
+    <!-- Subscribers -->
+    <section id="panelSubscribers" hidden>
+      <div class="toolbar">
+        <span style="color:var(--muted)">People who signed up in the website footer.</span>
+        <a class="btn" style="margin-left:auto" href="/api/admin/subscribers.csv">
+          <svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg> Export CSV</a>
+      </div>
+      <div id="subscriberList"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const STATUS_LABEL = { new: "Unread", read: "Read", done: "Handled" };
+    let inquiries = [], subscribers = [], knownIds = null, firstLoad = true;
+
+    function el(tag, attrs = {}, children = []) {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+      }
+      [].concat(children).forEach((c) => c != null && n.append(c));
+      return n;
+    }
+    function icon(d) {
+      const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      s.setAttribute("viewBox", "0 0 24 24");
+      s.innerHTML = d;
+      return s;
+    }
+    const ICON_MAIL = '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>';
+    const ICON_PHONE = '<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>';
+
+    // SQLite stores UTC ("YYYY-MM-DD HH:MM:SS"); show it in the viewer's local time.
+    const parseUtc = (s) => new Date(s.replace(" ", "T") + "Z");
+    function formatWhen(s) {
+      const d = parseUtc(s), now = new Date();
+      const mins = Math.round((now - d) / 60000);
+      const abs = d.toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" });
+      if (mins < 1) return ["just now", abs];
+      if (mins < 60) return [`${mins} min ago`, abs];
+      if (mins < 1440) return [`${Math.round(mins / 60)} h ago`, abs];
+      return [abs, abs];
+    }
+
+    function toast(msg) {
+      const t = $("#toast"); t.textContent = msg; t.classList.add("is-visible");
+      clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove("is-visible"), 2600);
+    }
+
+    async function request(url, options) {
+      const res = await fetch(url, { headers: { "Content-Type": "application/json" }, ...options });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    async function load() {
+      try {
+        [inquiries, subscribers] = await Promise.all([request("/api/admin/inquiries"), request("/api/admin/subscribers")]);
+        $("#live").classList.remove("is-off"); $("#liveText").textContent = "Live";
+      } catch {
+        $("#live").classList.add("is-off"); $("#liveText").textContent = "Offline — is the server running?";
+        return;
+      }
+      const ids = new Set(inquiries.map((i) => i.id));
+      const fresh = knownIds ? inquiries.filter((i) => !knownIds.has(i.id)) : [];
+      knownIds = ids;
+      if (fresh.length && !firstLoad) toast(`${fresh.length} new message${fresh.length > 1 ? "s" : ""} received`);
+      firstLoad = false;
+      renderStats(); renderInterestOptions(); renderMessages(new Set(fresh.map((f) => f.id))); renderSubscribers();
+      document.title = `${inquiries.filter((i) => i.status === "new").length ? `(${inquiries.filter((i) => i.status === "new").length}) ` : ""}IronPeak Admin — Customer Messages`;
+    }
+
+    function renderStats() {
+      const weekAgo = Date.now() - 7 * 864e5;
+      $("#statTotal").textContent = inquiries.length;
+      $("#statNew").textContent = inquiries.filter((i) => i.status === "new").length;
+      $("#statWeek").textContent = inquiries.filter((i) => parseUtc(i.created_at) > weekAgo).length;
+      $("#statSubs").textContent = subscribers.length;
+      $("#countMessages").textContent = inquiries.length;
+      $("#countSubs").textContent = subscribers.length;
+    }
+
+    function renderInterestOptions() {
+      const sel = $("#filterInterest"), current = sel.value;
+      const interests = [...new Set(inquiries.map((i) => i.interest))].sort();
+      sel.replaceChildren(el("option", { value: "", text: "All interests" }), ...interests.map((x) => el("option", { value: x, text: x })));
+      sel.value = interests.includes(current) ? current : "";
+    }
+
+    function renderMessages(freshIds = new Set()) {
+      const q = $("#search").value.trim().toLowerCase();
+      const st = $("#filterStatus").value, it = $("#filterInterest").value;
+      const rows = inquiries.filter((i) =>
+        (!st || i.status === st) && (!it || i.interest === it) &&
+        (!q || [i.name, i.email, i.phone, i.message].some((v) => (v || "").toLowerCase().includes(q))));
+      const list = $("#messageList");
+      if (!rows.length) {
+        list.replaceChildren(el("div", { class: "empty" }, inquiries.length
+          ? [el("strong", { text: "No matching messages" }), "Try a different search or filter."]
+          : [el("strong", { text: "No messages yet" }), "When a customer clicks “Send Message” on the website, it will appear here automatically."]));
+        return;
+      }
+      list.replaceChildren(...rows.map((i) => {
+        const [when, abs] = formatWhen(i.created_at);
+        const initials = i.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+        const statusBtn = (status, label) => i.status === status ? null :
+          el("button", { class: "btn", text: label, "data-action": "status", "data-status": status, "data-id": i.id });
+        return el("article", { class: `msg is-${i.status}${freshIds.has(i.id) ? " is-fresh" : ""}` }, [
+          el("div", { class: "msg__top" }, [
+            el("span", { class: "avatar", text: initials }),
+            el("div", { class: "who" }, [
+              el("strong", { text: i.name }),
+              el("div", { class: "contact" }, [
+                el("a", { href: `mailto:${i.email}` }, [icon(ICON_MAIL), i.email]),
+                i.phone ? el("a", { href: `tel:${i.phone}` }, [icon(ICON_PHONE), i.phone]) : el("span", { text: "No phone given" }),
+              ]),
+            ]),
+            el("div", { class: "meta" }, [
+              el("span", { class: "pill", text: i.interest }),
+              el("span", { class: `pill pill--${i.status}`, text: STATUS_LABEL[i.status] || i.status }),
+              el("time", { datetime: parseUtc(i.created_at).toISOString(), title: abs, text: when }),
+            ]),
+          ]),
+          el("p", { class: "msg__body", text: i.message }),
+          el("div", { class: "actions" }, [
+            el("a", { class: "btn", href: `mailto:${i.email}?subject=${encodeURIComponent("Re: your message to IronPeak Fitness")}`, text: "Reply by email" }),
+            statusBtn("read", "Mark as read"), statusBtn("done", "Mark handled"), statusBtn("new", "Mark unread"),
+            el("button", { class: "btn btn--danger", text: "Delete", "data-action": "delete", "data-id": i.id }),
+          ]),
+        ]);
+      }));
+    }
+
+    function renderSubscribers() {
+      const box = $("#subscriberList");
+      if (!subscribers.length) {
+        box.replaceChildren(el("div", { class: "empty" }, [el("strong", { text: "No subscribers yet" }), "Footer newsletter sign-ups will appear here."]));
+        return;
+      }
+      box.replaceChildren(el("table", {}, [
+        el("thead", {}, el("tr", {}, ["#", "Email", "Signed up", ""].map((h) => el("th", { text: h })))),
+        el("tbody", {}, subscribers.map((s) => el("tr", {}, [
+          el("td", { text: s.id }),
+          el("td", {}, el("a", { href: `mailto:${s.email}`, text: s.email })),
+          el("td", { text: formatWhen(s.created_at)[1] }),
+          el("td", { style: "text-align:right" }, el("button", { class: "btn btn--danger", text: "Remove", "data-action": "delete-sub", "data-id": s.id })),
+        ]))),
+      ]));
+    }
+
+    document.addEventListener("click", async (e) => {
+      const b = e.target.closest("[data-action]");
+      if (!b) return;
+      const id = b.dataset.id;
+      try {
+        if (b.dataset.action === "status") {
+          await request(`/api/admin/inquiries/${id}`, { method: "PATCH", body: JSON.stringify({ status: b.dataset.status }) });
+          toast(`Marked as ${STATUS_LABEL[b.dataset.status].toLowerCase()}`);
+        } else if (b.dataset.action === "delete") {
+          if (!confirm("Delete this message permanently?")) return;
+          await request(`/api/admin/inquiries/${id}`, { method: "DELETE" });
+          toast("Message deleted");
+        } else if (b.dataset.action === "delete-sub") {
+          if (!confirm("Remove this subscriber?")) return;
+          await request(`/api/admin/subscribers/${id}`, { method: "DELETE" });
+          toast("Subscriber removed");
+        }
+        load();
+      } catch { toast("Something went wrong — please try again."); }
+    });
+
+    document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("is-active", x === t));
+      $("#panelMessages").hidden = t.dataset.tab !== "messages";
+      $("#panelSubscribers").hidden = t.dataset.tab !== "subscribers";
+    }));
+    ["#search", "#filterStatus", "#filterInterest"].forEach((s) => $(s).addEventListener("input", () => renderMessages()));
+
+    load();
+    setInterval(() => { if (!document.hidden) load(); }, 15000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+  </script>
+</body>
+</html>

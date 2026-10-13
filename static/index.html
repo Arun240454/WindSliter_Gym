@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronPeak Fitness — Forge Your Peak</title>
+  <meta name="description" content="IronPeak Fitness: premium strength, conditioning and coaching. 24/7 access, elite coaches, unlimited classes. Book your free trial today." />
+  <meta name="theme-color" content="#0b0b0d" />
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="/images/hero-gym-floor.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/chatbot.css" />
+</head>
+<body class="is-loading">
+
+  <!-- ============ LOADER ============ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <div class="loader__logo">
+        <svg viewBox="0 0 64 64" class="logo-mark"><path d="M8 52 L26 18 L36 36 L42 26 L56 52 Z" /></svg>
+        <span>IRON<b>PEAK</b></span>
+      </div>
+      <div class="loader__bar"><span id="loaderBar"></span></div>
+      <div class="loader__count" id="loaderCount">0%</div>
+    </div>
+    <div class="loader__panel loader__panel--top"></div>
+    <div class="loader__panel loader__panel--bottom"></div>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="cursor" id="cursor"><span></span></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" aria-label="IronPeak home">
+      <svg viewBox="0 0 64 64" class="logo-mark"><path d="M8 52 L26 18 L36 36 L42 26 L56 52 Z" /></svg>
+      <span>IRON<b>PEAK</b></span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#programs">Programs</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#coaches">Coaches</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn btn--primary btn--sm nav__cta" data-interest="Free Trial">Free Trial</a>
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav>
+      <a href="#about" style="--i:0">About</a>
+      <a href="#programs" style="--i:1">Programs</a>
+      <a href="#schedule" style="--i:2">Schedule</a>
+      <a href="#pricing" style="--i:3">Pricing</a>
+      <a href="#coaches" style="--i:4">Coaches</a>
+      <a href="#gallery" style="--i:5">Gallery</a>
+      <a href="#contact" style="--i:6">Contact</a>
+    </nav>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__bg" data-parallax="0.35">
+        <img src="/images/hero-gym-floor.jpg" alt="Spacious industrial gym floor with racks and benches" />
+      </div>
+      <div class="hero__shade"></div>
+      <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
+
+      <div class="container hero__content">
+        <p class="eyebrow hero__eyebrow"><span class="pulse-dot"></span> Open 24/7 · Downtown Denver</p>
+        <h1 class="hero__title">
+          <span class="line"><span class="split">FORGE</span></span>
+          <span class="line"><span class="split">YOUR</span> <span class="split split--accent">PEAK</span></span>
+        </h1>
+        <p class="hero__lead">Elite equipment, world-class coaching and a community that refuses to settle. Train harder, recover smarter and become the strongest version of you.</p>
+        <div class="hero__actions">
+          <a href="#contact" class="btn btn--primary magnetic" data-interest="Free Trial">
+            <span>Start Free Trial</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#programs" class="btn btn--ghost magnetic"><span>Explore Programs</span></a>
+        </div>
+        <ul class="hero__stats">
+          <li><strong data-count="4200" data-suffix="+">0</strong><span>Active members</span></li>
+          <li><strong data-count="38">0</strong><span>Weekly classes</span></li>
+          <li><strong data-count="24" data-suffix="/7">0</strong><span>Access</span></li>
+        </ul>
+      </div>
+
+      <a href="#about" class="hero__scroll" aria-label="Scroll to about">
+        <span>Scroll</span><i></i>
+      </a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Strength</span><b>✦</b><span>Conditioning</span><b>✦</b><span>HIIT</span><b>✦</b><span>Mobility</span><b>✦</b><span>Coaching</span><b>✦</b><span>Recovery</span><b>✦</b>
+        <span>Strength</span><b>✦</b><span>Conditioning</span><b>✦</b><span>HIIT</span><b>✦</b><span>Mobility</span><b>✦</b><span>Coaching</span><b>✦</b><span>Recovery</span><b>✦</b>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__visual" data-tilt-scene>
+          <figure class="about__img about__img--main reveal" data-depth="20">
+            <img src="/images/about-training-floor.jpg" alt="IronPeak strength floor with cable machines and racks" loading="lazy" />
+          </figure>
+          <figure class="about__img about__img--top reveal" data-depth="50">
+            <img src="/images/about-dumbbell-rack.jpg" alt="Long rack of dumbbells" loading="lazy" />
+          </figure>
+          <figure class="about__img about__img--bottom reveal" data-depth="80">
+            <img src="/images/about-heavy-dumbbells.jpg" alt="Athlete lifting heavy dumbbells" loading="lazy" />
+          </figure>
+          <div class="about__badge" data-depth="110">
+            <strong>12</strong><span>years of<br/>forging athletes</span>
+          </div>
+        </div>
+
+        <div class="about__text">
+          <p class="eyebrow reveal">About IronPeak</p>
+          <h2 class="section-title reveal">Built for people who <em>show up.</em></h2>
+          <p class="reveal">Founded in 2014 by a crew of strength coaches and ex-athletes, IronPeak is a 32,000 sq ft training facility designed around one belief: real results come from great coaching, great equipment and a community that pushes you forward.</p>
+          <p class="reveal">From your very first assessment to your hundredth PR, our coaches build a plan around you, not a template.</p>
+          <ul class="about__points">
+            <li class="reveal"><span class="icon">⬢</span><div><strong>Competition-grade equipment</strong><p>Eleiko bars, calibrated plates, 14 power racks and a full turf lane.</p></div></li>
+            <li class="reveal"><span class="icon">⬢</span><div><strong>Certified coaching team</strong><p>Every coach holds NSCA or NASM credentials and keeps learning.</p></div></li>
+            <li class="reveal"><span class="icon">⬢</span><div><strong>Recovery zone</strong><p>Infrared sauna, cold plunge and mobility tools to keep you training.</p></div></li>
+          </ul>
+          <div class="about__counters">
+            <div class="reveal"><strong data-count="32" data-suffix="k">0</strong><span>sq ft facility</span></div>
+            <div class="reveal"><strong data-count="18">0</strong><span>expert coaches</span></div>
+            <div class="reveal"><strong data-count="97" data-suffix="%">0</strong><span>member retention</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROGRAMS ============ -->
+    <section class="section programs" id="programs">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">What we offer</p>
+          <h2 class="section-title reveal">Programs engineered <em>for results.</em></h2>
+          <p class="section-sub reveal">Six training pillars, one goal: making you stronger, fitter and more capable than you were yesterday.</p>
+        </div>
+        <div class="programs__grid">
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-strength.jpg" alt="Athlete performing a barbell overhead press" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">01</span>
+              <h3>Strength Training</h3>
+              <p>Progressive barbell and dumbbell programming that builds real-world strength and muscle.</p>
+              <span class="program-card__tag">All levels</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-hiit.jpg" alt="Athlete training with battle ropes" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">02</span>
+              <h3>HIIT &amp; Conditioning</h3>
+              <p>Heart-pounding intervals with ropes, sleds and bikes that torch calories and build an engine.</p>
+              <span class="program-card__tag">High intensity</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-group.jpg" alt="Group fitness class training with resistance bands" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">03</span>
+              <h3>Group Classes</h3>
+              <p>38 coached classes a week. Big energy, small enough that every rep gets coached.</p>
+              <span class="program-card__tag">38 / week</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-yoga.jpg" alt="Women in a bright studio doing a yoga and mobility class" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">04</span>
+              <h3>Yoga &amp; Mobility</h3>
+              <p>Restore range of motion, reduce injury risk and build the mobility your lifts depend on.</p>
+              <span class="program-card__tag">Recovery</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-personal.jpg" alt="Athlete training one-on-one in the gym" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">05</span>
+              <h3>Personal Training</h3>
+              <p>One-on-one coaching with a custom program, form feedback and accountability that sticks.</p>
+              <span class="program-card__tag">1-on-1</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+          <article class="program-card tilt reveal">
+            <div class="program-card__img"><img src="/images/service-core.jpg" alt="Woman doing core training on a mat" loading="lazy" /></div>
+            <div class="program-card__body">
+              <span class="program-card__num">06</span>
+              <h3>Core &amp; Pilates</h3>
+              <p>Precision core work for a stronger midline, better posture and a back that lasts.</p>
+              <span class="program-card__tag">Low impact</span>
+            </div>
+            <span class="tilt__glare"></span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SCHEDULE ============ -->
+    <section class="section schedule" id="schedule">
+      <div class="container">
+        <div class="section-head section-head--row">
+          <div>
+            <p class="eyebrow reveal">Class timetable</p>
+            <h2 class="section-title reveal">Find your <em>session.</em></h2>
+          </div>
+          <div class="schedule__filters reveal" id="categoryFilters" role="group" aria-label="Filter by category"></div>
+        </div>
+        <div class="schedule__days reveal" id="dayTabs" role="tablist" aria-label="Day of week"></div>
+        <div class="schedule__list" id="classList" role="tabpanel" aria-live="polite">
+          <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRICING ============ -->
+    <section class="section pricing" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Membership</p>
+          <h2 class="section-title reveal">Invest in <em>yourself.</em></h2>
+          <p class="section-sub reveal">No joining fees. No long contracts. Cancel or pause anytime.</p>
+          <div class="billing-toggle reveal" role="group" aria-label="Billing period">
+            <button class="is-active" data-billing="monthly">Monthly</button>
+            <button data-billing="annual">Annual <em>2 months free</em></button>
+            <span class="billing-toggle__pill"></span>
+          </div>
+        </div>
+        <div class="pricing__grid" id="pricingGrid">
+          <div class="skeleton skeleton--tall"></div><div class="skeleton skeleton--tall"></div><div class="skeleton skeleton--tall"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA BAND ============ -->
+    <section class="cta-band" aria-label="Free trial">
+      <div class="cta-band__bg" data-parallax="0.25">
+        <img src="/images/cta-deadlift.jpg" alt="Athlete preparing for a heavy deadlift in a dark gym" loading="lazy" />
+      </div>
+      <div class="container cta-band__content">
+        <h2 class="reveal">Your first week is <em>on us.</em></h2>
+        <p class="reveal">7 days of unlimited access, classes and a free coaching session. No card required.</p>
+        <a href="#contact" class="btn btn--primary magnetic reveal" data-interest="Free Trial"><span>Claim Free Week</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ============ COACHES ============ -->
+    <section class="section coaches" id="coaches">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Meet the team</p>
+          <h2 class="section-title reveal">Coaches who <em>get results.</em></h2>
+        </div>
+        <div class="coaches__grid" id="coachGrid">
+          <div class="skeleton skeleton--tall"></div><div class="skeleton skeleton--tall"></div><div class="skeleton skeleton--tall"></div><div class="skeleton skeleton--tall"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="section gallery" id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Inside IronPeak</p>
+          <h2 class="section-title reveal">The <em>arena.</em></h2>
+          <p class="section-sub reveal">Drag to spin the carousel and click any photo to view it full size.</p>
+        </div>
+      </div>
+      <div class="gallery__stage" id="galleryStage">
+        <div class="gallery__ring" id="galleryRing">
+          <figure class="gallery__item"><img src="/images/gallery-01.jpg" alt="Barbell deadlift setup on the gym floor" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-02.jpg" alt="Woman performing a barbell back squat" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-03.jpg" alt="Yoga pose silhouetted at sunset" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-04.jpg" alt="Focused athlete between sets" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-05.jpg" alt="Athlete holding a barbell across her shoulders" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-06.jpg" alt="Woman squatting under a loaded barbell" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-07.jpg" alt="Row of black dumbbells on a rack" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-08.jpg" alt="Large open gym hall with cardio machines" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-09.jpg" alt="Bright gym with smith machine and plate-loaded equipment" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-10.jpg" alt="Athlete doing push-ups on the gym floor" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-11.jpg" alt="Modern gym with cardio machines near windows" loading="lazy" draggable="false" /></figure>
+          <figure class="gallery__item"><img src="/images/gallery-12.jpg" alt="Athlete showing a strong, defined back" loading="lazy" draggable="false" /></figure>
+        </div>
+      </div>
+      <div class="gallery__controls">
+        <button class="icon-btn" id="galleryPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="icon-btn" id="galleryNext" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="section testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow reveal">Member stories</p>
+          <h2 class="section-title reveal">Real people. <em>Real results.</em></h2>
+        </div>
+        <div class="testimonials__stage" id="testimonialStage" aria-live="polite"></div>
+        <div class="testimonials__dots" id="testimonialDots" role="tablist" aria-label="Choose testimonial"></div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="container contact__grid">
+        <div class="contact__info">
+          <p class="eyebrow reveal">Get in touch</p>
+          <h2 class="section-title reveal">Let's start <em>your journey.</em></h2>
+          <p class="reveal">Book a free trial, ask about memberships or talk to a coach. We reply within 24 hours.</p>
+          <figure class="contact__img reveal tilt">
+            <img src="/images/contact-studio.jpg" alt="Bright IronPeak training studio with machines" loading="lazy" />
+            <span class="tilt__glare"></span>
+          </figure>
+          <ul class="contact__details">
+            <li class="reveal"><span>Visit</span>1450 Larimer Street, Denver, CO 80202</li>
+            <li class="reveal"><span>Call</span><a href="tel:+13035550142">(303) 555-0142</a></li>
+            <li class="reveal"><span>Email</span><a href="mailto:hello@ironpeakfitness.com">hello@ironpeakfitness.com</a></li>
+            <li class="reveal"><span>Staffed hours</span>Mon–Fri 5am–10pm · Sat–Sun 7am–8pm<br/>Members: 24/7 keycard access</li>
+          </ul>
+        </div>
+
+        <form class="contact__form reveal" id="contactForm" novalidate>
+          <h3>Send us a message</h3>
+          <div class="field">
+            <input type="text" id="name" name="name" placeholder=" " autocomplete="name" required maxlength="80" />
+            <label for="name">Full name</label>
+            <small class="field__error" data-for="name"></small>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <input type="email" id="email" name="email" placeholder=" " autocomplete="email" required maxlength="120" />
+              <label for="email">Email address</label>
+              <small class="field__error" data-for="email"></small>
+            </div>
+            <div class="field">
+              <input type="tel" id="phone" name="phone" placeholder=" " autocomplete="tel" maxlength="30" />
+              <label for="phone">Phone (optional)</label>
+              <small class="field__error" data-for="phone"></small>
+            </div>
+          </div>
+          <div class="field field--select">
+            <select id="interest" name="interest" required>
+              <option value="" disabled selected hidden></option>
+              <option>Free Trial</option>
+              <option>Membership</option>
+              <option>Personal Training</option>
+              <option>Group Classes</option>
+              <option>Corporate</option>
+              <option>Other</option>
+            </select>
+            <label for="interest">I'm interested in…</label>
+            <small class="field__error" data-for="interest"></small>
+          </div>
+          <div class="field">
+            <textarea id="message" name="message" rows="4" placeholder=" " required maxlength="2000"></textarea>
+            <label for="message">Tell us about your goals</label>
+            <small class="field__error" data-for="message"></small>
+          </div>
+          <button type="submit" class="btn btn--primary btn--block" id="contactSubmit">
+            <span>Send Message</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <p class="form-status" id="contactStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a href="#top" class="nav__logo">
+          <svg viewBox="0 0 64 64" class="logo-mark"><path d="M8 52 L26 18 L36 36 L42 26 L56 52 Z" /></svg>
+          <span>IRON<b>PEAK</b></span>
+        </a>
+        <p>Premium strength &amp; conditioning in the heart of Denver since 2014.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#programs">Programs</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#pricing">Membership</a>
+        <a href="#coaches">Coaches</a>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <p>1450 Larimer Street<br/>Denver, CO 80202</p>
+        <p><a href="tel:+13035550142">(303) 555-0142</a></p>
+      </div>
+      <div class="footer__news">
+        <h4>Training tips, weekly</h4>
+        <form id="newsletterForm" class="newsletter" novalidate>
+          <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required maxlength="120" />
+          <button type="submit" aria-label="Subscribe"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+        <p class="form-status" id="newsletterStatus" role="status"></p>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span id="year"></span> IronPeak Fitness. All rights reserved.</span>
+      <span>Photography courtesy of <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span>
+    </div>
+    <div class="footer__giant" aria-hidden="true">IRONPEAK</div>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">×</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <figure><img id="lightboxImg" alt="" /><figcaption id="lightboxCaption"></figcaption></figure>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/hero3d.js"></script>
+  <script type="module" src="/js/chatbot.js"></script>
+</body>
+</html>
