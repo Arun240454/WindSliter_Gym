@@ -23,7 +23,17 @@ sub = [dict(id=i + 1, email=e, created_at="2026-10-%02d 11:00:00" % (18 - i)) fo
 
 shim = """
 (function(){
-  var inq = %s, sub = %s;
+  var inq = %s, sub = %s, KEY = "ironpeak-demo-db", NEW = "ironpeak-demo-new";
+  try {
+    var db = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (db) { inq = db.inq; sub = db.sub; }
+    var q = JSON.parse(localStorage.getItem(NEW) || "{}");
+    (q.inq || []).forEach(function(r){ r.id = Math.max.apply(null, [0].concat(inq.map(function(x){ return x.id; }))) + 1; r.status = "new"; inq.unshift(r); });
+    (q.sub || []).forEach(function(r){ if (!sub.some(function(x){ return x.email === r.email; })) { r.id = Math.max.apply(null, [0].concat(sub.map(function(x){ return x.id; }))) + 1; sub.unshift(r); } });
+    localStorage.removeItem(NEW);
+  } catch(e){}
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify({inq: inq, sub: sub})); } catch(e){} }
+  save();
   function json(b, s){ return Promise.resolve(new Response(JSON.stringify(b), {status: s||200, headers: {"Content-Type":"application/json"}})); }
   window.fetch = function(url, opt){
     var m = (opt && opt.method) || "GET", x;
@@ -34,6 +44,7 @@ shim = """
       var list = x[1] === "inquiries" ? inq : sub, id = +x[2];
       if (m === "PATCH") list.forEach(function(r){ if (r.id === id) r.status = JSON.parse(opt.body).status; });
       if (m === "DELETE") { var k = list.findIndex(function(r){ return r.id === id; }); if (k > -1) list.splice(k, 1); }
+      save();
       return json({ok:true});
     }
     return json({ok:false}, 404);
@@ -42,7 +53,7 @@ shim = """
 """ % (json.dumps(inq), json.dumps(sub))
 
 banner = ('<div style="background:#2a2208;color:#ffd666;font:600 13px/1.4 Inter,system-ui,sans-serif;'
-          'padding:8px 16px;text-align:center">Demo with sample data. Changes reset on reload and nothing is saved. '
+          'padding:8px 16px;text-align:center">Demo with sample data. Messages sent from the contact form of the demo website in this browser appear here; nothing leaves your browser. '
           'CSV export is available in the full project.</div>')
 body = body.replace("<script>", "<script>" + shim, 1)
 out = ["<title>IronPeak Admin Demo</title>", *links, style, banner, body]

@@ -25,6 +25,13 @@ shim = """
 (function(){
   var D = %s;
   var realFetch = window.fetch.bind(window);
+  function queue(kind, item){
+    try {
+      var q = JSON.parse(localStorage.getItem("ironpeak-demo-new") || "{}");
+      (q[kind] = q[kind] || []).push(item);
+      localStorage.setItem("ironpeak-demo-new", JSON.stringify(q));
+    } catch(e){}
+  }
   function json(b, s){ return Promise.resolve(new Response(JSON.stringify(b), {status: s||200, headers: {"Content-Type":"application/json"}})); }
   window.fetch = function(url, opt){
     var p = typeof url === "string" ? url : url.url, m = (opt && opt.method) || "GET";
@@ -41,11 +48,13 @@ shim = """
       if (!b.interest) er.interest = "Please choose what you're interested in.";
       if (!b.message || b.message.trim().length < 10) er.message = "Message should be between 10 and 2000 characters.";
       if (Object.keys(er).length) return json({ok:false, errors:er}, 422);
-      return json({ok:true, message:"Thanks " + b.name.trim().split(" ")[0] + "! (Demo: nothing was saved.)"}, 201);
+      queue("inq", {name:b.name.trim(), email:b.email, phone:b.phone||null, interest:b.interest, message:b.message.trim(), created_at:new Date().toISOString().slice(0,19).replace("T"," ")});
+      return json({ok:true, message:"Thanks " + b.name.trim().split(" ")[0] + "! A coach will reach out within 24 hours. (Demo: see it in the admin demo.)"}, 201);
     }
     if (p === "/api/newsletter") {
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(b.email||"")) return json({ok:false, errors:{email:"Please enter a valid email address."}}, 422);
-      return json({ok:true, message:"You're on the list! (Demo: nothing was saved.)"}, 201);
+      queue("sub", {email:b.email, created_at:new Date().toISOString().slice(0,19).replace("T"," ")});
+      return json({ok:true, message:"You're on the list! (Demo)"}, 201);
     }
     return json({ok:false, error:"Not available in the demo."}, 404);
   };
