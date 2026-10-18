@@ -2,6 +2,8 @@
 
 **[▶ Live demo](https://arun240454.github.io/WindSliter_Gym/)** · [Claude artifact](https://claude.ai/artifact/VmeehgVPM2dub1JffN234o) (the demo runs in the browser with the API mocked; use `python server.py` for the full project)
 
+**[▶ Admin dashboard demo](https://arun240454.github.io/WindSliter_Gym/admin/)** · [Claude artifact](https://claude.ai/artifact/4K7Q2WkMeSGAS8vd26cmd1) (sample data only; the real dashboard is at `http://localhost:8000/admin`, username `admin`, password from `IRONPEAK_ADMIN_PASSWORD`)
+
 A full-stack website for **IronPeak Fitness**, a premium strength and conditioning gym.
 
 - **Frontend:** HTML, CSS and JavaScript (ES modules) with a Three.js WebGL hero, 3D tilt cards, flip cards, a draggable 3D gallery carousel, a coverflow testimonial slider, and scroll-driven reveal and parallax animations.
