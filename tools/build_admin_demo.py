@@ -27,16 +27,24 @@ shim = """
   try {
     var db = JSON.parse(localStorage.getItem(KEY) || "null");
     if (db) { inq = db.inq; sub = db.sub; }
-    var q = JSON.parse(localStorage.getItem(NEW) || "{}");
-    (q.inq || []).forEach(function(r){ r.id = Math.max.apply(null, [0].concat(inq.map(function(x){ return x.id; }))) + 1; r.status = "new"; inq.unshift(r); });
-    (q.sub || []).forEach(function(r){ if (!sub.some(function(x){ return x.email === r.email; })) { r.id = Math.max.apply(null, [0].concat(sub.map(function(x){ return x.id; }))) + 1; sub.unshift(r); } });
-    localStorage.removeItem(NEW);
   } catch(e){}
+  function nextId(list){ return Math.max.apply(null, [0].concat(list.map(function(x){ return x.id; }))) + 1; }
+  function drain(){
+    try {
+      var db = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (db) { inq = db.inq; sub = db.sub; }
+      var q = JSON.parse(localStorage.getItem(NEW) || "{}");
+      (q.inq || []).forEach(function(r){ r.id = nextId(inq); r.status = "new"; inq.unshift(r); });
+      (q.sub || []).forEach(function(r){ if (!sub.some(function(x){ return x.email === r.email; })) { r.id = nextId(sub); sub.unshift(r); } });
+      localStorage.removeItem(NEW);
+    } catch(e){}
+  }
   function save(){ try { localStorage.setItem(KEY, JSON.stringify({inq: inq, sub: sub})); } catch(e){} }
-  save();
+  drain(); save();
   function json(b, s){ return Promise.resolve(new Response(JSON.stringify(b), {status: s||200, headers: {"Content-Type":"application/json"}})); }
   window.fetch = function(url, opt){
     var m = (opt && opt.method) || "GET", x;
+    if (url === "/api/admin/inquiries" || url === "/api/admin/subscribers") { drain(); save(); }
     if (url === "/api/admin/inquiries") return json(inq);
     if (url === "/api/admin/subscribers") return json(sub);
     x = /^\/api\/admin\/(inquiries|subscribers)\/(\d+)$/.exec(url);
