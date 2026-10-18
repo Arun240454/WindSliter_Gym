@@ -1,5 +1,7 @@
 # IronPeak Fitness — Gym Website
 
+**[▶ Live demo](https://arun240454.github.io/WindSliter_Gym/)** · [Claude artifact](https://claude.ai/artifact/VmeehgVPM2dub1JffN234o) (the demo runs in the browser with the API mocked; use `python server.py` for the full project)
+
 A full-stack website for **IronPeak Fitness**, a premium strength and conditioning gym.
 
 - **Frontend:** HTML, CSS and JavaScript (ES modules) with a Three.js WebGL hero, 3D tilt cards, flip cards, a draggable 3D gallery carousel, a coverflow testimonial slider, and scroll-driven reveal and parallax animations.
