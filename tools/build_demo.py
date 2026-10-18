@@ -62,5 +62,11 @@ out = ["<title>IronPeak Fitness</title>", *head_links, "<style>\n" + css + "\n</
        '<div id="ip-root" class="is-loading-wrap">', body, "</div>",
        "<script>document.body.classList.add('is-loading')</script>",
        "<script>\n" + data_js + "\n</script>", *js]
-open(sys.argv[1], "w", encoding="utf-8").write("\n".join(out))
-print(len("\n".join(out)) / 1e6, "MB")
+page = "\n".join(out)
+if "--page" in sys.argv:  # standalone page for GitHub Pages
+    page = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="UTF-8" />\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n'
+            + out[0] + "\n" + "\n".join(head_links) + "\n</head>\n<body>\n"
+            + "\n".join(out[1 + len(head_links):]) + "\n</body>\n</html>\n")
+open(sys.argv[1], "w", encoding="utf-8").write(page)
+print(len(page) / 1e6, "MB")
